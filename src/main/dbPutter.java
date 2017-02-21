@@ -1,6 +1,8 @@
 package main;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  * Created by isaac on 2/21/2017.
@@ -29,6 +31,7 @@ public class dbPutter {
         try {
             Statement stmt=connection.createStatement();
             stmt.executeUpdate(query);
+            success = true;
         } catch (SQLException e) {
             e.printStackTrace();
         }

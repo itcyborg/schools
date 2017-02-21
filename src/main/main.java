@@ -45,6 +45,8 @@ public class main extends Application {
      */
     @Override
     public void start(Stage primaryStage) throws Exception {
+        new createDB();
+        new getDBConnector();
         primaryStage.setFullScreen(true);
         primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.setMinWidth(920);
