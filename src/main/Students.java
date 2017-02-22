@@ -4,20 +4,31 @@ package main;
  * Created by isaac on 2/19/2017.
  */
 public class Students {
+    private String adm;
     private String fname;
     private String lname;
     private String email;
 
     public Students(){
+        this.adm = "";
         this.fname="";
         this.lname="";
         this.email="";
     }
 
-    public Students(String fname,String lname,String email){
+    public Students(String adm, String fname, String lname, String email) {
+        this.adm = adm;
         this.fname=fname;
         this.lname=lname;
         this.email=email;
+    }
+
+    public String getAdm() {
+        return adm;
+    }
+
+    public void setAdm(String adm) {
+        this.adm = adm;
     }
 
     public String getFname() {

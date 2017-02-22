@@ -163,3 +163,22 @@
 .st-nav-button-lg:hover{
     -fx-background-color: #38474c;
 }
+
+.input {
+    -fx-pref-width: 300px;
+    -fx-pref-height: 40px;
+    -fx-background-color: white;
+}
+
+.st-control-button-lg {
+    -fx-pref-width: 130px;
+    -fx-min-width: 130px;
+    -fx-min-height: 40px;
+    -fx-background-color: rgba(242, 68, 28, 0.96);
+    -fx-text-fill: #d8d8d8;
+    -fx-font-weight: bold;
+}
+
+.st-control-button-lg:hover {
+    -fx-background-color: #38474c;
+}

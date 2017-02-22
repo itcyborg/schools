@@ -35,11 +35,9 @@ public class getDBConnector {
                 conn = DriverManager.getConnection(mysqlurl, user, password);
             }
             c = conn;
-            System.out.print("Connection Established");
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println(path);
     }
 
     public Connection getC() {

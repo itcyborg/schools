@@ -1,7 +1,5 @@
 package main;
 
-import java.util.Date;
-
 /**
  * Created by isaac on 2/20/2017.
  */
@@ -13,7 +11,7 @@ public class Fees {
     double feesPaid;
     double feesAmount;
     double balance;
-    Date time;
+    String time;
     public Fees() {
         this.first="isaac";
         this.last="tunduny";
@@ -24,7 +22,8 @@ public class Fees {
         this.feesPaid=0.0;
         this.time=null;
     }
-    public Fees(String first,String last,String adm,Date date,double feesAmount,double feesPaid) {
+
+    public Fees(String first, String last, String adm, String date, double feesAmount, double feesPaid) {
         this.first=first;
         this.last=last;
         this.admNo=adm;
@@ -91,11 +90,11 @@ public class Fees {
         this.balance = balance;
     }
 
-    public Date getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(Date time) {
+    public void setTime(String time) {
         this.time = time;
     }
 }

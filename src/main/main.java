@@ -18,6 +18,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
@@ -26,9 +27,16 @@ import java.util.Date;
  * Created by isaac on 2/18/2017.
  */
 public class main extends Application {
+    Connection conn = new getDBConnector().getC();
     public static void main(String[] args) {
         launch();
     }
+
+    /**
+     * TODO     -create a fees entry form
+     * TODO     -create student performance report, add printing support
+     * TODO     -create a logo anchor and select option
+     */
 
     /**
      * The main entry point for all JavaFX applications.
@@ -123,6 +131,7 @@ public class main extends Application {
         search.getStyleClass().add("search-label");
         searchField.getStyleClass().add("search-field");
 
+
         //internal frame
         BorderPane studentPane=new BorderPane();
 
@@ -140,7 +149,18 @@ public class main extends Application {
         });
         viewExisting.setOnAction(e->{
             intContent.getChildren().clear();
-            intContent.getChildren().add(viewStudent());
+            intContent.getChildren().add(viewStudent(""));
+        });
+
+        //search cmd
+        searchField.setOnKeyReleased(e -> {
+            String raw = searchField.getText().trim();
+            if (raw.length() > 0) {
+                intContent.getChildren().clear();
+                intContent.getChildren().addAll(viewStudent(raw));
+            } else {
+                intContent.getChildren().clear();
+            }
         });
 
         student.add(intopBar,1,0,1,1);
@@ -249,24 +269,33 @@ public class main extends Application {
         grid.setVgap(10);
 
         //textFields
+        TextField adm = new TextField();
         TextField firstName = new TextField();
         TextField lastName = new TextField();
         TextField email = new TextField();
+        adm.setPromptText("Admission Number");
+        adm.getStyleClass().add("input");
         firstName.setPromptText("First Name");
+        firstName.getStyleClass().add("input");
         lastName.setPromptText("Last Name");
+        lastName.getStyleClass().add("input");
         email.setPromptText("Email");
+        email.getStyleClass().add("input");
         Button btn = new Button("Save");
-        grid.add(firstName, 0, 0, 1, 1);
-        grid.add(lastName, 1, 0, 1, 1);
-        grid.add(email, 0, 1, 2, 1);
+        btn.getStyleClass().add("st-control-button-lg");
+        grid.add(adm, 0, 0, 1, 1);
+        grid.add(email, 1, 0, 1, 1);
+        grid.add(firstName, 0, 1, 1, 1);
+        grid.add(lastName, 1, 1, 1, 1);
         grid.add(btn, 2, 3, 1, 1);
 
         //button actions
         btn.setOnAction(e -> {
+            String admNo = adm.getText();
             String fname = firstName.getText();
             String lname = lastName.getText();
             String emailF = email.getText();
-            String query = "INSERT INTO students(FName,LName,Email) VALUES ('" + fname + "','" + lname + "','" + emailF + "')";
+            String query = "INSERT INTO students(ADM,FName,LName,Email) VALUES ('" + admNo + "','" + fname + "','" + lname + "','" + emailF + "')";
             int id = new dbPutter(new getDBConnector().getC(), query).put();
             System.out.println(id);
         });
@@ -276,9 +305,36 @@ public class main extends Application {
         return stackPane;
     }
 
-    private StackPane viewStudent(){
+    private StackPane viewStudent(String searchq) {
         StackPane stackPane=new StackPane();
-        stackPane.getChildren().add(search("h"));
+        TableColumn<Students, String> adm = new TableColumn("ADM No");
+        adm.setCellValueFactory(new PropertyValueFactory<>("adm"));
+        TableColumn<Students, String> firstname = new TableColumn("First Name");
+        firstname.setMinWidth(150);
+        firstname.setCellValueFactory(new PropertyValueFactory<>("fname"));
+        TableColumn<Students, String> lastname = new TableColumn("Last Name");
+        lastname.setMinWidth(150);
+        lastname.setCellValueFactory(new PropertyValueFactory<>("lname"));
+        TableColumn<Students, String> email = new TableColumn("Email");
+        email.setMinWidth(150);
+        email.setCellValueFactory(new PropertyValueFactory<>("email"));
+
+        TableView<Students> table = new TableView<>();
+        table.setPrefWidth(600);
+        table.getSelectionModel().setCellSelectionEnabled(false);
+        table.getColumns().addAll(adm, firstname, lastname, email);
+        table.setItems(getTableData(searchq, "students"));
+
+        ObservableList selectedCells = table.getSelectionModel().getSelectedItems();
+        selectedCells.addListener(new ListChangeListener() {
+            @Override
+            public void onChanged(Change c) {
+                Students person = table.getSelectionModel().getSelectedItem();
+                System.out.println(person.getAdm());
+            }
+        });
+
+        stackPane.getChildren().add(table);
         stackPane.getStyleClass().add("content");
         return stackPane;
     }
@@ -323,6 +379,16 @@ public class main extends Application {
             container.getChildren().add(viewFees("View All"));
         });
 
+        searchField.setOnKeyReleased(e -> {
+            String q = searchField.getText().trim();
+            if (q.length() > 0) {
+                container.getChildren().clear();
+                container.getChildren().add(viewFees(q));
+            } else {
+                container.getChildren().clear();
+            }
+        });
+
         viewCleared.setOnAction(e->{
             container.getChildren().clear();
             container.getChildren().add(viewFees("View Cleared"));
@@ -332,7 +398,6 @@ public class main extends Application {
             container.getChildren().clear();
             container.getChildren().add(viewFees("View Uncleared"));
         });
-        container.getStyleClass().add("grid");
         stackPane.setCenter(container);
 
         return stackPane;
@@ -340,13 +405,15 @@ public class main extends Application {
     private StackPane viewFees(String query){
         StackPane stackPane=new StackPane();
         stackPane.getChildren().add(feesTable(query));
-        stackPane.getStyleClass().add("grid");
+        stackPane.getStyleClass().add("content");
         return stackPane;
     }
 
     //run a search
     private StackPane search(String searchq){
         StackPane stackPane=new StackPane();
+        TableColumn<Students, String> adm = new TableColumn("ADM No");
+        adm.setCellValueFactory(new PropertyValueFactory<>("adm"));
         TableColumn<Students,String> firstname=new TableColumn("First Name");
         firstname.setMinWidth(150);
         firstname.setCellValueFactory(new PropertyValueFactory<>("fname"));
@@ -360,7 +427,7 @@ public class main extends Application {
         TableView<Students> table=new TableView<>();
         table.setPrefWidth(600);
         table.getSelectionModel().setCellSelectionEnabled(false);
-        table.getColumns().addAll(firstname,lastname,email);
+        table.getColumns().addAll(adm, firstname, lastname, email);
         table.setItems(getTableData(searchq,"students"));
 
         ObservableList selectedCells = table.getSelectionModel().getSelectedItems();
@@ -368,7 +435,7 @@ public class main extends Application {
             @Override
             public void onChanged(Change c) {
                 Students person = table.getSelectionModel().getSelectedItem();
-                System.out.println(person.getFname());
+                System.out.println(person.getAdm());
             }
         });
 
@@ -380,27 +447,26 @@ public class main extends Application {
     private StackPane feesTable(String searchq){
         StackPane stackPane=new StackPane();
         TableColumn<Fees,String> adm=new TableColumn("Name");
-        adm.setMinWidth(150);
+        adm.setPrefWidth(150);
         adm.setCellValueFactory(new PropertyValueFactory<>("name"));
-        TableColumn<Fees,String> name=new TableColumn("First");
-        name.setMinWidth(150);
+        TableColumn<Fees, String> name = new TableColumn("ADM");
+        name.setPrefWidth(150);
         name.setCellValueFactory(new PropertyValueFactory<>("admNo"));
         TableColumn<Fees,Double> amount=new TableColumn<>("Amount");
-        amount.setMinWidth(150);
+        amount.setPrefWidth(150);
         amount.setCellValueFactory(new PropertyValueFactory<>("feesAmount"));
         TableColumn<Fees,Double> feesPaid=new TableColumn<>("Fees Paid");
-        feesPaid.setMinWidth(150);
+        feesPaid.setPrefWidth(150);
         feesPaid.setCellValueFactory(new PropertyValueFactory<>("feesPaid"));
         TableColumn<Fees,Double> balance=new TableColumn<>("Balance");
-        balance.setMinWidth(150);
+        balance.setPrefWidth(150);
         balance.setCellValueFactory(new PropertyValueFactory<>("balance"));
         TableColumn<Fees,Date> date=new TableColumn<>("Date");
-        date.setMinWidth(150);
+        date.setPrefWidth(150);
         date.setCellValueFactory(new PropertyValueFactory<>("time"));
 
 
         TableView<Fees> table=new TableView<Fees>();
-        table.setPrefWidth(800);
         table.getColumns().addAll(adm,name,amount,feesPaid,balance,date);
         table.setItems(getFeesData(""));
 
@@ -411,11 +477,16 @@ public class main extends Application {
     //get all the students
     public ObservableList<Students> getTableData(String searchq,String table){
         ObservableList<Students> students=FXCollections.observableArrayList();
-        String query = "SELECT * FROM students";
+        String query = "";
+        if (searchq.length() > 0) {
+            query = "SELECT * FROM students WHERE ADM LIKE '%" + searchq + "%' OR FName LIKE '%" + searchq + "%' OR LName LIKE '%" + searchq + "%'";
+        } else {
+            query = "SELECT * FROM students";
+        }
         ResultSet rs = new dbGetter(query, new getDBConnector().getC()).getRecords();
         try {
             while (rs.next()) {
-                students.add(new Students(rs.getString("FName"), rs.getString("LName"), rs.getString("Email")));
+                students.add(new Students(rs.getString("ADM"), rs.getString("FName"), rs.getString("LName"), rs.getString("Email")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -423,10 +494,22 @@ public class main extends Application {
         return students;
     }
 
-    public ObservableList<Fees> getFeesData(String type){
+    public ObservableList<Fees> getFeesData(String searchq) {
         ObservableList<Fees> fees=FXCollections.observableArrayList();
-        fees.add(new Fees("isaac","kipkorir","7357",new Date(),10000.0,9000.0));
-        fees.add(new Fees());
+        String query = "";
+        if (searchq.length() > 0) {
+            query = "SELECT * FROM fees WHERE ADM LIKE '%" + searchq + "%'";
+        } else {
+            query = "SELECT * FROM fees";
+        }
+        ResultSet rs = new dbGetter(query, new getDBConnector().getC()).getRecords();
+        try {
+            while (rs.next()) {
+                fees.add(new Fees("isaac", "kipkorir", rs.getString("ADM"), rs.getString("UPDATED"), rs.getInt("AMOUNT"), rs.getInt("PAID")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return fees;
     }
 }
