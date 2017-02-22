@@ -18,6 +18,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 
 /**
@@ -46,6 +48,7 @@ public class main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         new createDB();
+        new createDB().createTables();
         new getDBConnector();
         primaryStage.setFullScreen(true);
         primaryStage.initStyle(StageStyle.UNDECORATED);
@@ -237,7 +240,38 @@ public class main extends Application {
 
     private StackPane addStudents(){
         StackPane stackPane=new StackPane();
-        stackPane.getChildren().add(profile());
+        //image holder
+        VBox imageContainer = new VBox(10);
+
+        //details form
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+
+        //textFields
+        TextField firstName = new TextField();
+        TextField lastName = new TextField();
+        TextField email = new TextField();
+        firstName.setPromptText("First Name");
+        lastName.setPromptText("Last Name");
+        email.setPromptText("Email");
+        Button btn = new Button("Save");
+        grid.add(firstName, 0, 0, 1, 1);
+        grid.add(lastName, 1, 0, 1, 1);
+        grid.add(email, 0, 1, 2, 1);
+        grid.add(btn, 2, 3, 1, 1);
+
+        //button actions
+        btn.setOnAction(e -> {
+            String fname = firstName.getText();
+            String lname = lastName.getText();
+            String emailF = email.getText();
+            String query = "INSERT INTO students(FName,LName,Email) VALUES ('" + fname + "','" + lname + "','" + emailF + "')";
+            int id = new dbPutter(new getDBConnector().getC(), query).put();
+            System.out.println(id);
+        });
+
+        stackPane.getChildren().add(grid);
         stackPane.getStyleClass().add("grid");
         return stackPane;
     }
@@ -377,9 +411,15 @@ public class main extends Application {
     //get all the students
     public ObservableList<Students> getTableData(String searchq,String table){
         ObservableList<Students> students=FXCollections.observableArrayList();
-        students.add(new Students("Isaaac","Kipkorir","isopat.pat@gmail.com"));
-        students.add(new Students("Patrick","Kipkorir","isopat.pat@gmail.com"));
-        students.add(new Students("Collins","Kipkorir","isopat.pat@gmail.com"));
+        String query = "SELECT * FROM students";
+        ResultSet rs = new dbGetter(query, new getDBConnector().getC()).getRecords();
+        try {
+            while (rs.next()) {
+                students.add(new Students(rs.getString("FName"), rs.getString("LName"), rs.getString("Email")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return students;
     }
 
@@ -389,5 +429,4 @@ public class main extends Application {
         fees.add(new Fees());
         return fees;
     }
-
 }

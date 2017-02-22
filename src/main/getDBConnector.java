@@ -9,6 +9,7 @@ import java.sql.SQLException;
  */
 public class getDBConnector {
     String connection;
+    Connection c;
 
     public getDBConnector() {
         this.connection = getdb();
@@ -33,11 +34,20 @@ public class getDBConnector {
             } else if (type.equals("mysql")) {
                 conn = DriverManager.getConnection(mysqlurl, user, password);
             }
+            c = conn;
             System.out.print("Connection Established");
         } catch (SQLException e) {
             e.printStackTrace();
         }
         System.out.println(path);
+    }
+
+    public Connection getC() {
+        return c;
+    }
+
+    public void setC(Connection c) {
+        this.c = c;
     }
 
     public String getdb() {

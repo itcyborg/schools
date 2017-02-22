@@ -3,10 +3,7 @@ package main;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
 /**
  * Created by isaac on 2/21/2017.
@@ -27,5 +24,27 @@ public class createDB {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean createTables() {
+
+        try {
+            Statement stmt = new getDBConnector().getC().createStatement();
+            stmt.execute(tablesSQL());
+            System.out.println("Table created");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
+    public String tablesSQL() {
+        String sql = "CREATE TABLE IF NOT EXISTS students (" +
+                " ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+                " FName TEXT NOT NULL ," +
+                " LName TEXT NOT NULL ," +
+                " Email VARCHAR(60) NOT NULL UNIQUE" +
+                " ); ";
+        return sql;
     }
 }
