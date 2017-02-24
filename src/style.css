@@ -1,0 +1,212 @@
+.custom-menu-button {
+    -fx-background-color: #00009e;
+    -fx-text-fill: azure;
+    -fx-border: 0, 0, 0, 1px;
+    -fx-border-style: hidden;
+    -fx-border-radius: 0;
+    -fx-min-height: 60px;
+    -fx-padding: 10px;
+    -fx-min-width: inherit;
+    -fx-font-size: 1.5em;
+}
+
+.custom-menu-button-space {
+    -fx-min-height: 200px;
+    -fx-background-color: blue;
+    -fx-text-fill: azure;
+    -fx-border: none;
+    -fx-border-style: hidden;
+    -fx-border-radius: 0;
+    -fx-padding: 10px;
+    -fx-min-width: inherit;
+}
+
+.home {
+    -fx-background-color: #00009e;
+}
+
+.custom-menu-button:hover {
+    -fx-background-color: #38474c;
+}
+
+.custom-sidebar-menu {
+    -fx-min-width: 200px;
+    -fx-background-color: blue;
+    -fx-fit-to-height: true;
+    -fx-min-height: 800;
+}
+
+.custom-menu-button-exit {
+    -fx-background-color: #ff6d22;
+    -fx-text-fill: azure;
+    -fx-border: none;
+    -fx-border-style: hidden;
+    -fx-border-radius: 0;
+    -fx-padding: 10px;
+    -fx-min-width: inherit;
+    -fx-font-size: 1.5em;
+}
+
+.custom-menu-button-exit:hover {
+    -fx-background-color: #f22001;
+}
+
+.wrapper {
+    -fx-fit-to-height: true;
+    -fx-fit-to-width: true;
+}
+
+.logout {
+    -fx-min-height: 70px;
+    -fx-min-width: 150px;
+    -fx-border: none;
+    -fx-background-color: #00009e;
+    -fx-text-fill: azure;
+    -fx-border-style: hidden;
+    -fx-border-radius: 0;
+    -fx-font-size: 1.75em;
+}
+
+.logout:hover {
+    -fx-background-color: red;
+}
+
+.top-bar {
+    -fx-background-color: #8000d6;
+    -fx-pref-height: 100px;
+}
+
+.title {
+    -fx-text-alignment: right;
+    -fx-font-size: 30px;
+    -fx-text-fill: whitesmoke;
+    -fx-padding: 10px;
+}
+
+.grid {
+    -fx-padding: 30px;
+}
+
+.dashboard-rectangle {
+    -fx-background-color: #99ff89;
+    -fx-min-width: 100px;
+    -fx-min-height: 100px;
+}
+
+.dash-card-text-label {
+    -fx-min-height: 60px;
+    -fx-min-width: 120px;
+    -fx-background-color: rgba(242, 68, 28, 0.96);
+    -fx-padding: 5px;
+    -fx-font-style: normal;
+    -fx-text-fill: cornsilk;
+    -fx-font-smoothing-type: gray;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+}
+
+.dash-card-head-label {
+    -fx-min-height: 40px;
+    -fx-min-width: 120px;
+    -fx-background-color: rgb(105, 0, 162);
+    -fx-padding: 5px;
+    -fx-font-size: 12px;
+    -fx-text-fill: azure;
+    -fx-font-style: normal;
+    -fx-font-smoothing-type: gray;
+    -fx-font-weight: bold;
+}
+
+.active {
+    -fx-background-color: blueviolet;
+}
+
+.student-form {
+    -fx-background-color: #d8d8d8;
+    -fx-border-color: #efefef;
+    -fx-padding: 30px;
+}
+
+.labels {
+    -fx-min-height: 40px;
+    -fx-min-width: 150px;
+    -fx-background-color: rgba(203, 203, 203, 0.89);
+    -fx-padding: 10px;
+    -fx-text-alignment: center;
+}
+
+.profile {
+    -fx-background-color: #d8d8d8;
+}
+
+.st-nav-button {
+    -fx-pref-width: 100px;
+    -fx-min-width: 100px;
+    -fx-min-height: 40px;
+    -fx-background-color: rgba(242, 68, 28, 0.96);
+    -fx-text-fill: #d8d8d8;
+    -fx-font-weight: bold;
+}
+
+.st-nav-button:hover {
+    -fx-background-color: #38474c;
+}
+
+.search-label {
+    -fx-min-width: 70px;
+    -fx-min-height: 40px;
+    -fx-fit-to-width: true;
+    -fx-text-alignment: center;
+    -fx-text-fill: #00001c;
+}
+
+.search-field {
+    -fx-min-height: 40px;
+    -fx-min-width: 200px;
+    -fx-background-color: ghostwhite;
+    -fx-prompt-text-fill: darkslategrey;
+}
+
+.search-field:hover {
+    -fx-background-color: #a0ff6d;
+}
+
+.search-field:focused {
+    -fx-background-color: #eccb22;
+}
+
+.content {
+    -fx-padding: 10px;
+}
+
+.st-nav-button-lg {
+    -fx-pref-width: 130px;
+    -fx-min-width: 130px;
+    -fx-min-height: 40px;
+    -fx-background-color: rgba(242, 68, 28, 0.96);
+    -fx-text-fill: #d8d8d8;
+    -fx-font-weight: bold;
+}
+
+.st-nav-button-lg:hover {
+    -fx-background-color: #38474c;
+}
+
+.input {
+    -fx-pref-width: 300px;
+    -fx-pref-height: 40px;
+    -fx-background-color: white;
+}
+
+.st-control-button-lg {
+    -fx-pref-width: 130px;
+    -fx-min-width: 130px;
+    -fx-min-height: 40px;
+    -fx-background-color: rgba(242, 68, 28, 0.96);
+    -fx-text-fill: #d8d8d8;
+    -fx-font-weight: bold;
+}
+
+.st-control-button-lg:hover {
+    -fx-background-color: #38474c;
+}
