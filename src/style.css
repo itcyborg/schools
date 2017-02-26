@@ -140,8 +140,8 @@
 }
 
 .st-nav-button {
-    -fx-pref-width: 100px;
-    -fx-min-width: 100px;
+    -fx-pref-width: 200px;
+    -fx-min-width: 180px;
     -fx-min-height: 40px;
     -fx-background-color: rgba(242, 68, 28, 0.96);
     -fx-text-fill: #d8d8d8;

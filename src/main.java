@@ -1,4 +1,3 @@
-
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -96,12 +95,26 @@ public class main extends Application {
             logoutDialog().show();
         });
 
+        //settings
+        StackPane settings = new StackPane();
+        settings.getStyleClass().add("dashboard-rectangle");
+        VBox vBox = new VBox();
+        settings.getChildren().add(vBox);
+        Label time = new Label("SETTINGS");
+        Button settingsBtn = new Button("CONFIGURE");
+        time.getStyleClass().add("dash-card-text-label");
+        time.setAlignment(Pos.CENTER);
+        settingsBtn.getStyleClass().add("dash-card-head-label");
+        settingsBtn.setAlignment(Pos.CENTER);
+        vBox.getChildren().addAll(time, settingsBtn);
+
         //content grid
         GridPane content = new GridPane();
         content.setHgap(25);
         content.setVgap(20);
         content.add(timeCard(), 0, 0);
         content.add(lastVisit(), 1, 0);
+        content.add(settings, 0, 1);
         content.getStyleClass().add("grid");
         content.add(studentsCard(), 2, 0);
 
@@ -173,6 +186,12 @@ public class main extends Application {
         layout.setCenter(content);
 
         //button actions
+        settingsBtn.setOnAction(e -> {
+            layout.getChildren().remove(content);
+            layout.getChildren().remove(reportsV);
+            layout.setCenter(settings());
+        });
+
         students.setOnAction(e -> {
             students.getStyleClass().add("active");
             btn.getStyleClass().remove("active");
@@ -520,6 +539,64 @@ public class main extends Application {
         table.setItems(getFeesData(""));
 
         stackPane.getChildren().add(table);
+        return stackPane;
+    }
+
+    private StackPane settings() {
+        StackPane pane = new StackPane();
+        pane.getStyleClass().add("grid");
+
+        //create a borderpane
+        BorderPane borderPane = new BorderPane();
+
+        VBox menu = new VBox(20);
+        menu.setPrefWidth(100);
+        Button fees = new Button("Fees");
+        fees.getStyleClass().add("custom-menu-button");
+        menu.getChildren().add(fees);
+        menu.getStyleClass().add("custom-sidebar-menu");
+
+        //set fees
+        fees.setOnAction(e -> {
+            borderPane.setCenter(setFees());
+        });
+
+        //add elements to the borderpane
+        borderPane.setLeft(menu);
+        pane.getChildren().add(borderPane);
+        return pane;
+    }
+
+    private StackPane setFees() {
+        StackPane stackPane = new StackPane();
+
+        GridPane grid = new GridPane();
+        grid.setHgap(20);
+        grid.setVgap(20);
+        grid.getStyleClass().add("grid");
+
+        TextField year = new TextField();
+        year.setPromptText("Year");
+        year.getStyleClass().add("input");
+        TextField term = new TextField();
+        term.setPromptText("Term/Semester");
+        term.getStyleClass().add("input");
+        TextField amount = new TextField();
+        amount.setPromptText("Amount");
+        amount.getStyleClass().add("input");
+        Button btn = new Button("Save");
+        HBox titleBox = new HBox(20);
+        Label title = new Label("Set Fees");
+        titleBox.getStyleClass().add("title");
+        titleBox.setMinHeight(100);
+        titleBox.getChildren().add(title);
+        grid.add(titleBox, 1, 0, 2, 1);
+        grid.add(year, 0, 1, 1, 1);
+        grid.add(term, 1, 1, 1, 1);
+        grid.add(amount, 2, 1, 1, 1);
+        grid.add(btn, 3, 2, 1, 1);
+        btn.getStyleClass().add("st-control-button-lg");
+        stackPane.getChildren().add(grid);
         return stackPane;
     }
 

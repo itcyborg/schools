@@ -34,6 +34,7 @@ public class createDB {
             Statement stmt = new getDBConnector().getC().createStatement();
             stmt.execute(tablesSQL());
             stmt.execute(tablesSQL1());
+            stmt.execute(tableSQL2());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -64,6 +65,15 @@ public class createDB {
                 "AMOUNT INTEGER NOT NULL," +
                 "PAID INTEGER NOT NULL," +
                 "UPDATED text NOT NULL" +
+                ");";
+    }
+
+    private String tableSQL2() {
+        return "CREATE TABLE IF NOT EXISTS feesStatic(" +
+                "ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+                "YEARSEM TEXT NOT NULL UNIQUE," +
+                "UPDATED text NOT NULL," +
+                "AMOUNT INT NOT NULL" +
                 ");";
     }
 

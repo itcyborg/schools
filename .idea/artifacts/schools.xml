@@ -1,20 +1,22 @@
 <component name="ArtifactManager">
-  <artifact type="javafx" name="schools">
+  <artifact type="javafx" build-on-make="true" name="schools">
     <output-path>$PROJECT_DIR$/out/artifacts/schools</output-path>
     <properties id="javafx-properties">
       <options>
         <option name="appClass" value="main" />
-        <option name="convertCss2Bin" value="true" />
-        <option name="description" value="" />
+        <option name="description" value="&#9;&#9;&#9;" />
         <option name="htmlPlaceholderId" value="" />
-        <option name="title" value="" />
-        <option name="vendor" value="" />
+        <option name="nativeBundle" value="all" />
+        <option name="title" value="schools" />
+        <option name="updateMode" value="always" />
+        <option name="vendor" value="itcyborg designs" />
         <option name="version" value="" />
       </options>
     </properties>
     <root id="root">
       <element id="archive" name="schools.jar">
         <element id="module-output" name="schools" />
+        <element id="library" level="project" name="sqlite-jdbc-3.16.1" />
       </element>
     </root>
   </artifact>
